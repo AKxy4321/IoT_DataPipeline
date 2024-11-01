@@ -17,6 +17,7 @@ PASSWORD = os.environ.get('PASS_WORD')
 
 # Kafka Producer
 producer = Producer({'bootstrap.servers': KAFKA_BROKER})
+print(producer)
 
 # MQTT Callbacks
 def on_connect(client, userdata, flags, rc):
@@ -31,14 +32,17 @@ def on_message(client, userdata, msg):
     print(f"Received from MQTT: {data}")
     
     # Forward message to Kafka
-    producer.produce(KAFKA_TOPIC, data)
-    # producer.flush()
-    print(f"Sent to Kafka: {data}")
+    try:
+        producer.produce(KAFKA_TOPIC, data)
+        producer.flush() 
+        print(f"Sent to Kafka: {data}")
+    except Exception as e:
+        print(f"Failed to send to Kafka: {e}")
 
     time.sleep(3)
 
 # MQTT Client Setup with specified protocol version
-mqtt_client = mqtt.Client()  # Specify the MQTT version here
+mqtt_client = mqtt.Client()  
 mqtt_client.username_pw_set(USERNAME, PASSWORD)
 mqtt_client.on_connect = on_connect
 mqtt_client.on_message = on_message

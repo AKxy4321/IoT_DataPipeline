@@ -39,7 +39,7 @@ void reconnect() {
 void publish_sensor_data() {
   float temperature = random(2000, 3000) / 100.0; // Simulated temperature (20.00 to 30.00)
   
-  String payload = String("{\"temperature\":") + temperature + "}";
+  String payload = String("{\"temperature\":") + String(temperature) + "}";
   client.publish(mqtt_topic, payload.c_str());
   Serial.print("IoT Device sent: ");
   Serial.println(payload);
@@ -47,8 +47,9 @@ void publish_sensor_data() {
 
 void setup() {
   Serial.begin(115200);
-  delay(1000);
+  delay(1500);
   WiFi.disconnect();
+  delay(1500);
   setup_wifi();
   Serial.print("Local IP Address: ");
   Serial.println(WiFi.localIP());

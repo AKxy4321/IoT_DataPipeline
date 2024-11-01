@@ -19,7 +19,7 @@ INFLUXDB_TOKEN = os.environ.get('INFLUXDB_TOKEN')
 consumer_conf = {
     'bootstrap.servers': KAFKA_BROKER,
     'group.id': 'iot_group',
-    'auto.offset.reset': 'earliest'
+    'auto.offset.reset': 'latest'
 }
 
 # Initialize InfluxDB Client
